@@ -8,7 +8,7 @@ const products = [
     brand: 'Apple',
     category: 'Electronics',
     price: 89.99,
-    countInStock: 0,
+    countInStock: 5,
     rating: 4.5,
     numReviews: 12,
   },
@@ -79,4 +79,4 @@ const products = [
   },
 ]
 
-module.exports= products
+export default products

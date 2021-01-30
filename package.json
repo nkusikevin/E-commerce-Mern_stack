@@ -3,13 +3,20 @@
   "version": "1.0.0",
   "description": "Mern shopping cart",
   "main": "index.js",
+  "type":"module",
   "scripts": {
-    "start": "nodemon backend/server"
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Nkusikevin",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
     "nodemon": "^2.0.7"
   }
 }
