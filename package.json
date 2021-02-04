@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Mern shopping cart",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
@@ -12,8 +12,11 @@
   "author": "Nkusikevin",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "mongoose": "^5.11.14"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
