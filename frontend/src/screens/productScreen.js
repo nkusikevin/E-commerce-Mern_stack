@@ -7,7 +7,7 @@ import {Row,Col,Image,ListGroup,Card,Button, Form} from "react-bootstrap"
 import Rating from '../components/Reviews'
 import {listProductDetails} from '../actions/productActions'
 function ProductScreen({history,match}) {
-    const [qty,setQty] = useState(0)
+    const [qty,setQty] = useState(1)
   const dispatch = useDispatch()
   const productDetails = useSelector(state => state.productDetails)
   const {loading , error ,product} = productDetails
