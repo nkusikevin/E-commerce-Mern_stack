@@ -6,12 +6,14 @@ import Home from "./screens/Homescreen"
 import Products from './screens/productScreen'
 import Cart from './screens/CartScreen'
 import {BrowserRouter as Router,Route} from 'react-router-dom'
+import LoginScreen from './screens/LoginScreen'
 function App() {
   return (
     <Router>
     <Header/>
     <main className="py-3"><Container>
      <Route path='/' component={Home} exact/>
+     <Route path='/login' component={LoginScreen}/>
      <Route path='/product/:id' component={Products}/>
      <Route path='/cart/:id?' component={Cart}/>
     </Container>
