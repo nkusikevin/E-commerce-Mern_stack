@@ -1,3 +1,4 @@
+//CART REDUCER
 import {CARD_ADD_ITEM,CART_REMOVE_ITEM} from '../constance/cartConstance'
 export const cartReducer = ( state ={ cartItems:[]} ,action) =>    {
 switch( action.type){
@@ -17,7 +18,7 @@ case CARD_ADD_ITEM :
             cartItems: [...state.cartItems, item]
         }
     }
-    case CART_REMOVE_ITEM :
+    case CART_REMOVE_ITEM ://remove item from the cart
         return{
             ...state,
             cartItems:state.cartItems.filter((x)=> x.product !== action.payload)
