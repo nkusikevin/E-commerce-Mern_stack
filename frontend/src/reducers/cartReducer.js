@@ -1,6 +1,6 @@
 //CART REDUCER
-import {CARD_ADD_ITEM,CART_REMOVE_ITEM} from '../constance/cartConstance'
-export const cartReducer = ( state ={ cartItems:[]} ,action) =>    {
+import {CARD_ADD_ITEM,CART_REMOVE_ITEM,CART_SAVE_SHIPPING_ADDRESS} from '../constance/cartConstance'
+export const cartReducer = ( state ={ cartItems:[],shippingAddress:{}} ,action) =>    {
 switch( action.type){
 case CARD_ADD_ITEM :
     const item = action.payload //catching the item that is being added to the cart 
@@ -22,6 +22,11 @@ case CARD_ADD_ITEM :
         return{
             ...state,
             cartItems:state.cartItems.filter((x)=> x.product !== action.payload)
+        }
+   case CART_SAVE_SHIPPING_ADDRESS:
+        return{
+            ...state,
+            shippingAddress:action.payload
         }
 default:
 return state
