@@ -20,9 +20,10 @@ const importdata = async()=>{
         })
         await Products.insertMany(sampleProducts)
         console.log("Data imported");
-    }catch{
-        console.log(error);
-process.exit(1)
+        process.exit()
+    }catch(error){
+        console.error(error);
+        process.exit(1)
     }
 }
 
