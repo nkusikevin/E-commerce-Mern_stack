@@ -33,9 +33,19 @@ dispatch(logout())
       <Nav.Link ><i className="fas fa-user"/>Sign In</Nav.Link>
         </LinkContainer>
         }
-
-      
-      
+{userInfo && userInfo.isAdmin &&(
+     <NavDropdown title='ADMIN' id="AdminMenu">
+     <LinkContainer to='/admin/userList'>
+       <NavDropdown.Item>Users</NavDropdown.Item>
+     </LinkContainer>
+     <LinkContainer to='/admin/productList'>
+       <NavDropdown.Item>Products</NavDropdown.Item>
+     </LinkContainer>
+     <LinkContainer to='/admin/orderList'>
+       <NavDropdown.Item>Orders</NavDropdown.Item>
+     </LinkContainer>
+   </NavDropdown>
+)}  
     </Nav>
 
   </Navbar.Collapse>

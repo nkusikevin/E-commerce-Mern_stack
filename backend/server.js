@@ -1,19 +1,27 @@
-import  express  from 'express';
-import dotenv  from 'dotenv'
-import connection  from './config/dbconfig.js'
-import productRoutes from './routes/productRoutes.js'
-import usersRoutes from './routes/usersRoute.js'
-import {errorHandler ,notFound} from "./middleWare/errorMiddleWare.js"
-dotenv.config()
-connection()
+/** @format */
+import path from "path"
+import express from "express";
+import dotenv from "dotenv";
+import connection from "./config/dbconfig.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import usersRoutes from "./routes/usersRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import { errorHandler, notFound } from "./middleWare/errorMiddleWare.js";
+dotenv.config();
+connection();
 const app = express();
-app.use(express.json())
-app.get('/',(req, res)=>{
-  res.send('hello world');
+app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("hello world");
 });
-app.use('/api/products',productRoutes)
-app.use('/api/users',usersRoutes)
-app.use(notFound)
-app.use(errorHandler)
-const port = process.env.PORT || 4000
-app.listen(port,console.log("server is up on 4000"))
+const __dirname= path.resolve()
+app.use('/uploads' ,express.static(path.join(__dirname,'/uploads')) )
+app.use("/api/products", productRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use(notFound);
+app.use(errorHandler);
+const port = process.env.PORT || 4000;
+app.listen(port, console.log("server is up on 4000"));

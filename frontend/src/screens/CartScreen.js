@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import {Row , Col ,ListGroup ,Image ,Form ,Button ,Card} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import {addToCart,removeFromCart} from '../actions/cartActions'
+
 function CartScreen({match,location,history}) {
 const productId = match.params.id
 const qty =location.search ? Number(location.search.split('=')[1]) : 1
@@ -27,7 +28,7 @@ const checkoutHandler = ()=>{
        <Row>
            <Col md={8}>
                <h1>Shopping Cart</h1>
-               {cartItems.length === 0 ? (<Message>Your cart is empty <Link to='/'>Go Back</Link></Message>):(
+               {cartItems.length === 0 ? (<Message>Your cart is empty 😢🤣<Link to='/'>Go Back</Link></Message>):(
                   <ListGroup variant='flush'>
 {cartItems.map(item =>(
     <ListGroup.Item key={item.product}>

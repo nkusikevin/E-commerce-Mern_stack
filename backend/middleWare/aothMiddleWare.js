@@ -20,6 +20,16 @@ if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
     throw new Error('Not authorized')
 }
 })
+
+const admin = (req,res,next)=>{
+    if(req.user && req.user.isAdmin){
+        next()
+    }else{
+        res.status(401)
+        throw new Error("Not Authorized for the Route")
+    }
+}
 export{
-    Auth
+    Auth,
+    admin
 }

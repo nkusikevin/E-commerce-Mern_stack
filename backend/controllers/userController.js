@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler"
-import User from "../models/user.js"
+// import User from "../models/user.js"
 import Users from "../models/user.js"
 import generateToken from "../utils/generateToken.js"
 //@desc Auth user & get token
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async(req,res)=>{
        res.status(400)
        throw new Error('User already exists ')
    }
-const user = await User.create({
+const user = await Users.create({
            name,
            email,
            password
@@ -69,7 +69,7 @@ const getUserProfile  = asyncHandler(async(req,res)=>{
 })
 //@desc Update user profile
 //@route PUT /api/users/profile
-//@access Privet
+//@access Private
 const updateUserProfile  = asyncHandler(async(req,res)=>{
   const user = await Users.findById(req.user._id)
   if(user){
@@ -88,10 +88,69 @@ res.json({
            token:generateToken(updatedUser._id),
 })
 })
+//@desc Get user profile
+//@route Get /api/users
+//@access Private/Admin
+const getUsers  = asyncHandler(async(req,res)=>{
+const users = await Users.find({})
+res.json(users)
+})
+
+
+//@desc Delete user profile
+//@route Delete /api/users
+//@access Private/Admin
+const DeleteUser  = asyncHandler(async(req,res)=>{
+    const user = await Users.findById(req.params.id)
+ if(user){
+     await user.remove()
+     res.json({message:"user removed"})
+ }else{
+     res.status(404)
+     throw new Error("user not found")
+ }
+    })
+
+//@desc Get userById profile
+//@route Get /api/users/:id
+//@access Private/Admin
+const getUser  = asyncHandler(async(req,res)=>{
+    const user = await Users.findById(req.params.id).select('-password')
+    if(user){
+        res.json(user)
+    }else{
+        res.status(404)
+        throw new Error("user not found Mr admin");
+    }
+    })
+//@desc Update user profilee
+//@route PUT /api/users/:id
+//@access Private Admin
+const updateUser  = asyncHandler(async(req,res)=>{
+    const user = await Users.findById(req.params.id)
+    if(user){
+  user.name = req.body.name || user.name
+  user.email = req.body.email || user.email
+  user.isAdmin = req.body.isAdmin
+  }
+  const updatedUser = await user.save()
+  res.json({
+        _id:updatedUser._id,
+             name:updatedUser.name,
+             email:updatedUser.email,
+             isAdmin:updatedUser.isAdmin
+  })
+  })    
+
+
 
 export {
     authUser,
     getUserProfile,
     registerUser,
-    updateUserProfile
+    updateUserProfile,
+    getUsers,
+    DeleteUser,
+    getUser,
+    updateUser
 }

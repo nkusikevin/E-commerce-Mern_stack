@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './bootstrap.min.css'
 import './index.css';
+import './fontawesome-free-5.15.3-web/css/all.min.css'
 import App from './App';
 import store from "./store"
 import {Provider} from "react-redux"
