@@ -14,16 +14,19 @@ import {
 } from "./reducers/userReducer";
 import { userUpdateProfileReducer } from "./reducers/userReducer";
 import {
-  productDetailsReducer,
-  productListReducer,
-  productDeleteReducer,
-  productCreateReducer,
-  productUpdateReducer,
+	productDetailsReducer,
+	productListReducer,
+	productDeleteReducer,
+	productCreateReducer,
+	productUpdateReducer,
+	productReviewReducer,
 } from "./reducers/productReducer.js";
 import {
   orderCreateReducer,
   orderDetailsReducer,
   orderPayReducer,
+  ordersListReducer,
+  listOrdersReducer
 } from "./reducers/orderReducer";
 const reducer = combineReducers({
   productList: productListReducer,
@@ -42,6 +45,9 @@ const reducer = combineReducers({
   productDeleted: productDeleteReducer,
   createdProduct: productCreateReducer,
  productUpdate: productUpdateReducer,
+ myOrders:ordersListReducer,
+ adminOrders:listOrdersReducer,
+ userReviews:productReviewReducer
 });
 //storing some state to the local storage
 const cartItemsFromStorage = localStorage.getItem("cartItems")

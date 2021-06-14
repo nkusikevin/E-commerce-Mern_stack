@@ -1,5 +1,5 @@
 //CART REDUCER
-import {CARD_ADD_ITEM,CART_REMOVE_ITEM,CART_SAVE_PAYMENT_METHOD,CART_SAVE_SHIPPING_ADDRESS} from '../constance/cartConstance'
+import {CARD_ADD_ITEM,CART_REMOVE_ITEM,CART_SAVE_PAYMENT_METHOD,CART_SAVE_SHIPPING_ADDRESS,CART_RESET_ITEM} from '../constance/cartConstance'
 export const cartReducer = ( state ={ cartItems:[],shippingAddress:{}} ,action) =>    {
 switch( action.type){
 case CARD_ADD_ITEM :
@@ -33,6 +33,8 @@ case CARD_ADD_ITEM :
             ...state,
             paymentMethod:action.payload
         }
+    case CART_RESET_ITEM:
+        return { cartItems: []};
 default:
 return state
 }

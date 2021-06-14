@@ -49,7 +49,7 @@ function UserListScreen({history}) {
                             <td>{user.name}</td>
                             <td><a href={`mailto:${user.email}`}>{user.email}</a></td>
                             <td>{user.isAdmin ? (<i  className="fas fa-check" style={{color:'green'}}></i>):
-                            <i className="fas fas-times" style={{color:'red'}}></i>
+                            <i className="fas fa-times" style={{color:'red'}}></i>
                             }</td>
                             <td>
                                 <LinkContainer to={`/admin/user/${user._id}/edit`}>
