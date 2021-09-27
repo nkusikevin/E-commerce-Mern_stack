@@ -14,6 +14,9 @@ import {
 	LIST_ALL_ORDERS_REQUEST,
 	LIST_ALL_ORDERS_SUCCESS,
 	LIST_ALL_ORDERS_FAIL,
+	ORDER_DELIVERED_REQUEST,
+	ORDER_DELIVERED_SUCCESS,
+	ORDER_DELIVERED_FAIL
 } from "../constance/orderConstance";
 import axios from "axios";
 import { CART_RESET_ITEM } from "../constance/cartConstance";
@@ -166,6 +169,34 @@ export const listAllOrders = () => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: LIST_ALL_ORDERS_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const deliverOrders = (order) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: ORDER_DELIVERED_REQUEST });
+		const {
+			userLogin: { userInfo },
+		} = getState();
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${userInfo.token}`,
+			},
+		};
+		const { data } = await axios.put(
+			`/api/orders/${order._id}/delivered`,{},
+			config
+		);
+		dispatch({ type: ORDER_DELIVERED_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: ORDER_DELIVERED_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
-import { Row, Image, Col, ListGroup, Card } from "react-bootstrap";
+import { Row, Image, Col, ListGroup, Card ,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { ORDER_PAY_RESET } from "../constance/orderConstance";
-import { getOrderDetails, payOrder } from "../actions/orderActions";
-function OrderScreen({ match }) {
+import { ORDER_PAY_RESET ,ORDER_DELIVERED_RESET} from "../constance/orderConstance";
+import { getOrderDetails, payOrder , deliverOrders } from "../actions/orderActions";
+function OrderScreen({ match , history }) {
 	const [sdkReady, setSdkReady] = useState(false);
 	const orderId = match.params.id;
 	const dispatch = useDispatch();
@@ -16,6 +16,13 @@ function OrderScreen({ match }) {
 	const { order, loading, error } = orderDetails;
 	const orderPay = useSelector((state) => state.orderPay);
 	const { paymentloading, success } = orderPay;
+
+	const orderDelivered = useSelector((state) => state.orderDelivered);
+	const { loading:loadingDeliver,success:successDeliver} = orderDelivered;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
 	if (!loading) {
 		const addDecimals = (num) => {
 			return (Math.round(num * 100) / 100).toFixed(2);
@@ -26,7 +33,9 @@ function OrderScreen({ match }) {
 		order.taxPrice = addDecimals(Number((0.15 * order.itemsPrice).toFixed(2)));
 	}
 	useEffect(() => {
-
+if(!userInfo){
+	history.push('/login')
+}
  const addPayPalScript = async () => {
 		const { data: clientId } = await axios.get("/api/config/paypal");
 		const script = document.createElement("script");
@@ -38,8 +47,9 @@ function OrderScreen({ match }) {
 		};
 		document.body.appendChild(script);
  };
-		if (!order || success) {
+		if (!order || success || successDeliver) {
 			dispatch({ type: ORDER_PAY_RESET });
+			dispatch({ type: ORDER_DELIVERED_RESET });
 			dispatch(getOrderDetails(orderId));
 		} else if (!order.isPaid) {
 			if (!window.paypal) {
@@ -48,14 +58,16 @@ function OrderScreen({ match }) {
 				setSdkReady(true);
 			}
 		}
-	}, [dispatch, orderId, success, order]);
+	}, [dispatch, orderId, success,successDeliver,order]);
 
 	const successHandler = (paymentResult) => {
 		console.log(paymentResult);
 		dispatch(payOrder(orderId, paymentResult));
 		
 	};
-
+const deliverHandler = ()=>{
+dispatch(deliverOrders(order))
+}
 	return loading ? (
 		<Loader />
 	) : error ? (
@@ -85,7 +97,7 @@ function OrderScreen({ match }) {
 							</p>
 							{order.isDelivered ? (
 								<Message variant='success'>
-									Delivered on {order.isDeliveredAt}
+									Delivered on {order.deliveredAt}
 								</Message>
 							) : (
 								<Message variant='danger'>Not Delivered</Message>
@@ -166,14 +178,27 @@ function OrderScreen({ match }) {
 									<Col>${order.totalPrice}</Col>
 								</Row>
 							</ListGroup.Item>
-							{paymentloading && <Loader />}
-							{!sdkReady ? (
-								<Loader />
-							) : (
-								<PayPalButton
-									amount={order.totalPrice}
-									onSuccess={successHandler}
-								/>
+							<ListGroup.Item>
+								{paymentloading && <Loader />}
+								{!sdkReady ? (
+									<Loader />
+								) : (
+									<PayPalButton
+										amount={order.totalPrice}
+										onSuccess={successHandler}
+									/>
+								)}
+							</ListGroup.Item>
+							{loadingDeliver && <Loader />}
+							{userInfo&& userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+								<ListGroup.Item>
+									<Button
+										type='button'
+										className='btn btn-block'
+										onClick={deliverHandler}>
+										Mark As Delivered
+									</Button>
+								</ListGroup.Item>
 							)}
 						</ListGroup>
 					</Card>
