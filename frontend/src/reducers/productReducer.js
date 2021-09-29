@@ -21,6 +21,9 @@ import {
 	PRODUCT_CREATE_REVIEW_SUCCESS,
 	PRODUCT_CREATE_REVIEW_FAIL,
 	PRODUCT_CREATE_REVIEW_RESET,
+	PRODUCT_TOP_REQUEST,
+	PRODUCT_TOP_SUCCESS,
+	PRODUCT_TOP_FAIL,
 } from "../constance/productConstance";
 //Reducer for all products
 export const productListReducer = (state = { products: [] }, action) => {
@@ -115,6 +118,20 @@ export const productReviewReducer = (state = {}, action) => {
 			return { loading: false, error: action.payload };
 		case PRODUCT_CREATE_REVIEW_RESET:
 			return {};
+		default:
+			return state;
+	}
+};
+
+// product reviews
+export const productTopRatedReducer = (state = { product: [] }, action) => {
+	switch (action.type) {
+		case PRODUCT_TOP_REQUEST:
+			return { loading: true, product: [] };
+		case PRODUCT_TOP_SUCCESS:
+			return { loading: false, product: action.payload };
+		case PRODUCT_TOP_FAIL:
+			return { loading: false, error: action.payload };
 		default:
 			return state;
 	}

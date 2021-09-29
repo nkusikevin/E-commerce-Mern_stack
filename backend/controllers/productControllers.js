@@ -129,6 +129,13 @@ const productReview = asyncHandler(async (req, res) => {
 		throw new Error("no review");
 	}
 });
+//@desc Get top rated products
+//@route GET /api/products/top
+//@access Public
+const getTopProducts = asyncHandler(async (req, res) => {
+ 	 const products = await Products.find({}).sort({rating: -1}).limit(3)
+	  res.json(products)
+});
 export {
 	getProductByID,
 	getProducts,
@@ -136,4 +143,5 @@ export {
 	CreateProduct,
 	editProductByID,
 	productReview,
+	getTopProducts,
 };
