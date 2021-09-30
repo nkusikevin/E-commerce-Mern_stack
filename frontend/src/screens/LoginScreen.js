@@ -16,7 +16,6 @@ function LoginScreen({ location, history }) {
 	useEffect(() => {
 		if (userInfo) {
 			history.push(redirect);
-			console.log(location.search);
 		}
 	}, [history, userInfo, redirect]);
 	const submitHandler = (e) => {

@@ -33,20 +33,20 @@ function OrderScreen({ match , history }) {
 		order.taxPrice = addDecimals(Number((0.15 * order.itemsPrice).toFixed(2)));
 	}
 	useEffect(() => {
-if(!userInfo){
-	history.push('/login')
-}
- const addPayPalScript = async () => {
-		const { data: clientId } = await axios.get("/api/config/paypal");
-		const script = document.createElement("script");
-		script.type = "text/javascript";
-		script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-		script.async = true;
-		script.onload = () => {
-			setSdkReady(true);
+		if (!userInfo) {
+			history.push("/login");
+		}
+		const addPayPalScript = async () => {
+			const { data: clientId } = await axios.get("/api/config/paypal");
+			const script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+			script.async = true;
+			script.onload = () => {
+				setSdkReady(true);
+			};
+			document.body.appendChild(script);
 		};
-		document.body.appendChild(script);
- };
 		if (!order || success || successDeliver) {
 			dispatch({ type: ORDER_PAY_RESET });
 			dispatch({ type: ORDER_DELIVERED_RESET });
@@ -58,7 +58,7 @@ if(!userInfo){
 				setSdkReady(true);
 			}
 		}
-	}, [dispatch, orderId, success,successDeliver,order]);
+	}, [dispatch, orderId, success, successDeliver, order, history, userInfo]);
 
 	const successHandler = (paymentResult) => {
 		console.log(paymentResult);

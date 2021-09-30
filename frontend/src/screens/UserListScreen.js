@@ -12,7 +12,7 @@ function UserListScreen({history}) {
     const userLogin = useSelector(state => state.userLogin)
     const {userInfo}= userLogin
 
-    const  userDelete = useSelector(state => state. userDelete)
+    const  userDelete = useSelector(state => state.userDelete)
     const {success:successDelete}=  userDelete
 
     const dispatch = useDispatch()
@@ -22,7 +22,7 @@ function UserListScreen({history}) {
      }else{
          history.push('/login')
      }
-    }, [dispatch, history, successDelete])
+    }, [dispatch, history, successDelete, userInfo])
     const deleteHandler = (id)=>{
         if(window.confirm("are you fuckin sure dude?")){
             dispatch(deleteUsers(id))

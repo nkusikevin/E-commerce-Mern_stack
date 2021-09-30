@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import Meta from "../components/Meta"
+import Meta from "../components/Meta";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	Row,
@@ -29,11 +29,7 @@ function ProductScreen({ history, match }) {
 	const userReviews = useSelector((state) => state.userReviews);
 	const userLogin = useSelector((state) => state.userLogin);
 
-	const {
-		loading: reviewLoading,
-		error: reviewError,
-		success: reviewSuccess,
-	} = userReviews;
+	const { error: reviewError, success: reviewSuccess } = userReviews;
 	const { userInfo } = userLogin;
 
 	const productDetails = useSelector((state) => state.productDetails);
@@ -51,11 +47,13 @@ function ProductScreen({ history, match }) {
 		history.push(`/cart/${match.params.id}?qty=${qty}`);
 	};
 	const submitHndler = () => {
-        dispatch(productReviewAction(match.params.id,{
-            rating,
-            comment
-        }))
-    };
+		dispatch(
+			productReviewAction(match.params.id, {
+				rating,
+				comment,
+			})
+		);
+	};
 	return (
 		<>
 			<Link className='btn btn-light my-3' to='/'>
@@ -67,7 +65,7 @@ function ProductScreen({ history, match }) {
 				<Message variant='danger'>{error}</Message>
 			) : (
 				<>
-				<Meta title={product.name}/>
+					<Meta title={product.name} />
 					<Row>
 						<Col md={6}>
 							<Image src={product.image} alt={product.name} fluid />

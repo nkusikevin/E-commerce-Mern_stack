@@ -17,7 +17,7 @@ function AllOrderScreen({ history, match }) {
 		} else {
 			history.push("/login");
 		}
-	}, [dispatch, history]);
+	}, [dispatch, history, userInfo]);
 
 	return (
 		<>
